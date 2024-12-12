@@ -28,3 +28,9 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ("id", "form", "question_type", "question_text")
     search_fields = ("question_text",)
     list_filter = ("question_type", "is_required")
+
+
+@admin.register(Response)
+class ResponseAdmin(admin.ModelAdmin):
+    list_display = ("id", "form")
+    list_filter = ("question", "form")
