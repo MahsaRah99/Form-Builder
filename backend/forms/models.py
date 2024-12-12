@@ -43,3 +43,28 @@ class Question(models.Model):
 
     def __str__(self):
         return f"{self.question_text} ({self.get_question_type_display()})"
+
+
+class Response(models.Model):
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE, related_name="q_responses"
+    )
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, related_name="f_responses")
+    short_response = models.CharField(
+        _("Short response"), max_length=200, blank=True, null=True
+    )
+    long_response = models.CharField(
+        _("Long response"), max_length=5000, blank=True, null=True
+    )
+    email_response = models.EmailField(_("Email response"), blank=True, null=True)
+    numeric_response = models.FloatField(_("Numeric response"), blank=True, null=True)
+
+    def __str__(self):
+        return f"response to {self.question.question_text}"
+
+    def clean(self):
+        validate_response(self.__dict__, self.question, self.question.is_required)
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
