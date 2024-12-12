@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = ["forms.apps.FormsConfig"]
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -129,3 +130,16 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Form Builder Admin",
+    "site_header": "Form Builder",
+    "welcome_sign": "Welcome to Form Builder's Admin Panel",
+    "site_logo": "images/logo.png",
+    "site_logo_classes": "img-circle",
+    "copyright": "Mahsa Rahimi manesh",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_models": ["auth.Permission"],
+    "order_with_respect_to": ["auth", "forms"],
+}
