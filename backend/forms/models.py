@@ -13,3 +13,33 @@ class Form(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Question(models.Model):
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
+    question_type = models.CharField(
+        _("Question Type"), max_length=2, choices=QuestionTypes
+    )
+    question_text = models.CharField(_("Question text"), max_length=300)
+    is_required = models.BooleanField(_("Is required"), default=True)
+    place_holder = models.CharField(
+        _("Place holder"), max_length=100, blank=True, null=True
+    )
+    numeric_constraint = models.CharField(
+        _("Numeric constraint"),
+        max_length=3,
+        choices=NumericConstraints,
+        blank=True,
+        null=True,
+    )
+
+    def clean(self):
+        if not self.question_type == "NR" and self.numeric_constraint:
+            raise ValidationError("Numeric constraint can't be set for this question.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.question_text} ({self.get_question_type_display()})"
