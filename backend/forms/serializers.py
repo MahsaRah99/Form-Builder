@@ -16,3 +16,40 @@ class FormSerializer(serializers.ModelSerializer):
         questions = Question.objects.filter(form=obj).order_by("id")
         serializer = QuestionListSerializer(questions, many=True)
         return serializer.data
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    form_name = serializers.StringRelatedField(source="form")
+
+    class Meta:
+        model = Question
+        fields = (
+            "form_name",
+            "question_type",
+            "question_text",
+            "is_required",
+            "place_holder",
+            "numeric_constraint",
+        )
+        read_only_fields = ("form_name",)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["numeric_constraint"] = instance.get_numeric_constraint_display()
+        return data
+
+
+class QuestionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = (
+            "question_type",
+            "question_text",
+            "is_required",
+            "place_holder",
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["question_type"] = instance.get_question_type_display()
+        return data
