@@ -9,3 +9,8 @@ from .serializers import FormSerializer, QuestionSerializer, ResponseSerializer
 class FormRetrieveView(generics.RetrieveAPIView):
     serializer_class = FormSerializer
     queryset = Form.objects.all()
+
+
+class QuestionRetrieveView(generics.RetrieveAPIView):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
