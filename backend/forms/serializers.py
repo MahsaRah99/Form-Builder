@@ -53,3 +53,24 @@ class QuestionListSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data["question_type"] = instance.get_question_type_display()
         return data
+
+
+class ResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Response
+        fields = [
+            "form",
+            "question",
+            "short_response",
+            "long_response",
+            "email_response",
+            "numeric_response",
+        ]
+
+    def validate(self, data):
+        question = data.get("question")
+        is_required = question.is_required
+
+        validate_response(data, question, is_required)
+
+        return data
