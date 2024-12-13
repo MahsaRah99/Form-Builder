@@ -8,7 +8,7 @@ This project is a form builder that allows you to create forms through an admin 
 
 ```bash
 git clone git@github.com:MahsaRah99/Form-Builder.git
-cd Form-Builder
+cd Form-Builder/backend
 ````
 
 ### 📦 Step 2: Install Dependencies 
